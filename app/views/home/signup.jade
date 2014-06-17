@@ -1,0 +1,24 @@
+extends ../shared/template
+
+block content
+
+  .container
+    .col-sm-6.col-sm-offset-3
+      h1 Signup
+
+    form(action='/signup', method='post')
+      .form-group
+        label Email
+        input(type='email', name='email')
+      .form-group
+        label Password
+        input(type='password', name='password')
+      button Sign Up
+    //- if(message.length > 0)
+    //-   .alert.alert-danger
+    //-     message
+
+    p Already have an account?
+      a(href='/login') Login
+    p or go
+      a(href='/') Home

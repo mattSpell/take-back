@@ -1,0 +1,43 @@
+extends ../shared/template
+
+block content
+
+
+  img.logo.img-responsive(src='/img/bg.jpg')
+  //- img.logo.img-responsive(src='/img/fist.png')
+
+  .well.well-lg.desc
+    p Take Back Nashville is a crime reporting app that empowers community members by allowing them to post a photo and/or description of suspicious activity around them for the community to see. Nashville can be a safer place and it starts with you!
+
+
+  if(user)
+    form(method='post', action='/logout')
+      button.btn.btn-default.btn-sm#logout Logout
+
+  if(message)
+    .alert(style='color: red')
+      p= message
+
+  if(!user)
+    .login
+      form(action='/login', method='post')
+        input(type='email', name='email', placeholder='Email', autofocus=true)
+        br
+        input(type='password', name='password', placeholder='Password')
+        br
+        button(type='submit') Login
+
+    .bottom
+      hr
+      p.footer
+        | Need an account?
+        a.words.footer-link(href='/register') Register
+        |  or sign in with
+
+      a.btn.btn-primary.footer-btn(href='/auth/facebook')
+        span.fa.fa-facebook
+        | &nbsp Facebook
+    //- br
+    //- a.btn.btn-info(href='/auth/twitter')
+    //-   span.fa.fa-twitter
+    //-   | &nbsp Twitter

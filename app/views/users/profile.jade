@@ -1,0 +1,99 @@
+extends ../shared/template
+
+block content
+  .container
+    #map
+
+    button.btn.btn-primary.btn-lg.report(data-toggle='modal', data-target='#myModal')
+      | Report Suspicious Activity
+
+    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+      .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+              h4#myModalLabel.modal-title Report Suspicious Activity
+            .modal-body
+              form.report.form-horizontal(action='/reports', method='post', enctype='multipart/form-data', role='form')
+                fieldset
+                  .form-group
+                    label.col-sm-2.control-label(for='textinput') Description
+                    .col-sm-10
+                      textarea.desc.form-control(type='text',name='description', placeholder='Description (Include Date and Time)')
+                  .form-group
+                    label.col-sm-2.control-label(for='textinput') Number
+                    .col-sm-10
+                      input.streetNumber.form-control(type='text',name='streetNumber', placeholder='Street Number')
+                  .form-group
+                    label.col-sm-2.control-label(for='textinput') Street
+                    .col-sm-10
+                      input.streetName.form-control(type='text', name='streetName', placeholder='Street Name')
+                  .form-group
+                    label.col-sm-2.control-label(for='textinput') City
+                    .col-sm-10
+                      input.city.form-control(type='text', name='city', placeholder='City')
+                  .form-group
+                    label.col-sm-2.control-label(for='textinput') State
+                    .col-sm-4
+                      input.state.form-control(type='text', name='state', placeholder='State')
+                    label.col-sm-2.control-label(for='textinput') Zip
+                    .col-sm-4
+                      input.zip.form-control(type='text', name='zip', placeholder='Zip')
+                  .form-group
+                    label.col-sm-2.control-label(for='fileinput') Photo
+                    .col-sm-10
+                      input.photo.form-control(type='file')
+
+                  .form-group
+                    .col-sm-offset-2.col-sm-10
+                      .modal-footer
+                        button.btn.btn-default(type='button', data-dismiss='modal') Close
+                        button#submit.btn.btn-primary(type='button', data-dismiss='modal') Submit
+
+
+
+    .text-center
+      form(method='post', action='/logout')
+        button.btn.btn-default.btn-sm#logout Logout
+    //- .row
+      // LOCAL INFORMATION
+      //- .col-sm-4
+      //-   .well
+      //-     h3
+      //-       span.fa.fa-user
+      //-       | Local
+      //-     if(user.local.email)
+      //-       p
+      //-         strong Email
+      //-         | : #{user.local.email}
+      //-       p
+      //-         strong Password
+      //-         | : &#9679 &#9679 &#9679 &#9679 &nbsp
+      //-         a.btn.btn-default.btn-sm(href='/users/password') Change Password
+      //-       p
+      //-         a.btn.btn-default(href='/unlink/local') Unlink
+      //-     else
+      //-       a.btn.btn-default(href='/connect/local') Connect Local
+      //- //FACEBOOK INFORMATION
+      //- .col-sm-4
+      //-   .well
+      //-     h3.text-info
+      //-       span.fa.fa-facebook
+      //-       | &nbsp Facebook
+      //-     if(user.facebook.token)
+      //-       p
+      //-         strong ID
+      //-         | : #{user.facebook.id}
+      //-       p
+      //-         strong Name
+      //-         | : #{user.facebook.displayName}
+      //-       p
+      //-         strong Email
+      //-         | : #{user.facebook.email}
+      //-       p
+      //-         a.btn.btn-primary(href='/unlink/facebook') Unlink
+      //-     else
+      //-       a.btn.btn-primary(href='/connect/facebook') Connect Facebook
+
+block scripts
+  script(src='/js/es6/compiled/submitForm.js')

@@ -1,0 +1,17 @@
+extends ../shared/template
+
+block content
+  .container
+    form(action='/login', method='post')
+      .form-group
+        label Email
+        input(type='email', name='email')
+      .form-group
+        label Password
+        input(type='password', name='password')
+      button Login
+
+    p Need an account?
+      a(href='/signup') Sign Up
+    p or go
+      a(href='/') Home
