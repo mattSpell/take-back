@@ -10,7 +10,7 @@
   var map;
 
   function init(){
-    initMap(36.15, -86.72, 11);
+    initMap(36.15, -86.78, 12);
     addMarkers();
   }
 
@@ -18,6 +18,7 @@
     var wells = $('#report-container').find('.well-sm');
     wells.each(function(){
       var desc = $(this).find('.content').text();
+      var date = $(this).find('.date').text();
       var type = $(this).attr('data-type');
       var icon = `../img/${type}.png`;
       var lat = $(this).attr('data-lat');
@@ -31,7 +32,7 @@
       });
 
       var infoWindow = new google.maps.InfoWindow();
-      var html = '<p>'+desc+'</p>';
+      var html = '<h4>'+date+'</h4>'+'<p>'+desc+'</p>';
       google.maps.event.addListener(marker, 'click', function(){
         infoWindow.setContent(html);
         infoWindow.open(map, marker);

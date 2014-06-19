@@ -16,8 +16,6 @@ exports.create = (req, res)=>{
 		  var long = body.results[0].geometry.location.lng;
       report.latlong.push(lat, long);
       report.save((report)=>{
-        console.log('==========REPORT FROM ROUTE=======');
-        console.log(report);
         res.render('users/report', {report:report});
         });
       }

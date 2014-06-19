@@ -1,6 +1,6 @@
 'use strict';
 
-/* load all strategies we need */
+/* load all strategies */
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 // var TwitterStrategy  = require('passport-twitter').Strategy;
@@ -10,7 +10,7 @@ var traceur = require('traceur');
 var User = traceur.require(__dirname + '/../models/user.js');
 var _ = require('lodash');
 
-/* load the authorization variables (Facebook, Twitter, Google, etc) */
+/* load the authorization variables (Facebook, Twitter, etc) */
 var configAuth = require('./oauth');
 
 

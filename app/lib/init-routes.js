@@ -15,14 +15,13 @@ module.exports = (req, res, next)=>{
 };
 
 function load(app, fn){
-  /* Bringing in middleware to pass into route file */
   var home = traceur.require(__dirname + '/../routes/home.js');
   var users = traceur.require(__dirname + '/../routes/users.js');
   var reports = traceur.require(__dirname + '/../routes/reports.js');
 
   /* Passport Configuration */
   var passport = require('passport');
-  require('../config/passport')(passport); // how does communication between passport.js and init routes work?
+  require('../config/passport')(passport);
 
 
   app.get('/', dbg, home.index);
@@ -30,9 +29,9 @@ function load(app, fn){
 
   app.get('/register', dbg, users.registration);
   app.post('/register', dbg, passport.authenticate('local-register', {
-    successRedirect : '/profile', // redirect to the secure profile section
-    failureRedirect : '/register', // redirect back to the register page if there is an error
-    failureFlash : true // allow flash messages
+    successRedirect : '/profile',
+    failureRedirect : '/register',
+    failureFlash : true
   }));
   app.post('/login', dbg, passport.authenticate('local-login', {
     successRedirect : '/profile', // redirect to the secure profile section

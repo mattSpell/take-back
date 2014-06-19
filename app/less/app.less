@@ -1,5 +1,5 @@
 .container{
-  width: 80%;
+  width: 85%;
   margin:auto;
 }
 
@@ -9,24 +9,17 @@
   font-size: 7em;
 }
 
-// .footer{
-//   display: inline-block;
-// }
-// .footer-btn, .footer-link{
-//   margin-left: 2em;
-// }
-// .desc{
-//   margin-top: 4em;
-//   margin-bottom: 4em;
-// }
-
 .well{
-  width: 80%;
+  width: 75em;
   margin-left:auto;
   margin-right: auto;
   p{
     text-align: center;
   }
+}
+
+.desc{
+  width: 90%;
 }
 
 .logo{
@@ -50,8 +43,39 @@
   height: 35em;
   width: 100%;
 }
+
+#legend{
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  height: 6em;
+  // border: 1px solid black;
+  border-radius: 5px;
+  ul{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    li{
+      list-style-type: none;
+      display: inline;
+
+      img{
+        display: inline-block;
+        margin-top: .5em;
+        margin-left: 5%;
+        margin-right: 5%;
+      }
+    }
+    p{
+      display: inline-block;
+
+    }
+  }
+
+}
 button.btn.btn-primary.btn-lg.report{
   position: relative;
+  display:block;
   margin-left: 50%;
   margin-top: 2em;
   margin-bottom: 1em;
@@ -59,6 +83,13 @@ button.btn.btn-primary.btn-lg.report{
   background-color: #333;
   border-color: #333;
 }
+#chat{
+    width: 100%;
+    margin:auto;
+    height: 200px;
+    border: 1px solid black;
+    overflow: none;
+  }
 
 #report-container.well.well-lg{
   width: 100%;
@@ -70,8 +101,7 @@ button.btn.btn-primary.btn-lg.report{
   position: relative;
   display: inline-block;
   width: 5em;
-  margin:1em;
-  border-right: 1px solid black;
+  // border-right: 1px solid black;
   height: 100%;
   img{
     width: 40px;
@@ -85,10 +115,9 @@ button.btn.btn-primary.btn-lg.report{
   }
 }
 
-// .icon{
-//   width: 40px;
-//   height: 40px;
-// }
+.icon{
+  margin-left: 1em;
+}
 
 .content{
   position: relative;
@@ -97,7 +126,64 @@ button.btn.btn-primary.btn-lg.report{
   vertical-align: middle;
   display: inline-block;
   text-align: center;
+  margin-left:8em;
   p{
     margin:0;
+  }
+}
+#logout{
+  margin-bottom: 2em !important;
+}
+
+// Responsiveness
+@media (max-width: 1032px) {
+  h1.header{
+    font-size: 5em;
+  }
+  .content{
+    margin-left: 5em;
+  }
+}
+
+@media (max-width: 992px) {
+  .well-sm{
+    width: 49em;
+    .content{
+      width: 35em;
+      margin-left: 2em;
+    }
+  }
+  #legend > ul > li > img{
+    margin-left: 1%;
+    margin-right: 1%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container{
+    width: 90%;
+  }
+  #map{
+    width: 100%;
+  }
+  .well-sm{
+    width:39em;
+    .content{
+      width: 25em;
+      margin-left: .5em;
+    }
+  }
+}
+
+@media (max-width: 739px) {
+  h1.header{
+    font-size: 4em;
+  }
+  .well-sm{
+    width:30em;
+    .content{
+      width: 18em;
+      margin-left: .5em;
+    }
   }
 }

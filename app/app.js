@@ -37,7 +37,7 @@ app.use(cookieSession({keys:['SEC123', '321CES']}));
 
 /* Passport Configuration */
 app.use(cookieParser());
-app.use(session({ secret: 'natdatpatsat'}));
+app.use(session({ secret: 'whereintheworldiscarmensandiego'}));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
