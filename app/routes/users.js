@@ -4,6 +4,9 @@
 // require('../config/passport')(passport);
 var traceur = require('traceur');
 var User = traceur.require(__dirname + '/../../app/models/user.js');
+var reportCollection = global.nss.db.collection('reports');
+var Report = traceur.require(__dirname + '/../models/report.js');
+var Base = traceur.require(__dirname + '/../models/base.js');
 
 
 exports.registration = (req, res)=>{
@@ -27,7 +30,9 @@ exports.bounce = (req, res, next)=>{
 };
 
 exports.profile = (req, res)=>{
-  res.render('users/profile', {user: req.user, title: 'Map'});
+  Base.findAll(reportCollection, Report, reports=>{
+    res.render('users/profile', {user: req.user, reports:reports, title: 'Map'});
+  });
 };
 
 exports.password = (req, res)=>{

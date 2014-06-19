@@ -1,4 +1,4 @@
-/*global google:true*/
+/*global google:true, addMarkers*/
 /*jshint unused:false*/
 /*jshint camelcase:false*/
 
@@ -6,17 +6,23 @@
   'use strict';
 
     $(document).ready(function() {
-      $('#submit').on('click', function(){
+      $('#submit').click(function(event){
+        // $('#map').empty();
+        // addMarkers();
+        event.preventDefault();
           $.ajax({
               type: 'POST',
-              url: '/reports', //process to mail
+              url: '/reports',
               data: $('form.report').serialize(),
-              success: function(html){
+              dataType: 'html',
+              success: html=>{
+                location.reload();
                   console.log(html);
                 }
             });
         });
     });
+
 
 
 

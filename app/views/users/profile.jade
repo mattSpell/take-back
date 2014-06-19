@@ -3,6 +3,16 @@ extends ../shared/template
 block content
   .container
     #map
+    #report-container.well.well-lg
+      each report in reports
+        .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}')
+          .date
+            p= report.date
+          .type
+            img.icon(href='/img/#{report.type}.png')
+          .content
+            p= report.desc
+
 
     button.btn.btn-primary.btn-lg.report(data-toggle='modal', data-target='#myModal')
       | Report Suspicious Activity
@@ -17,17 +27,27 @@ block content
               form.report.form-horizontal(action='/reports', method='post', enctype='multipart/form-data', role='form')
                 fieldset
                   .form-group
+                    label.col-sm-2.control-label(for='option') Type
+                    .col-sm-4
+                      select.type.form-control(name='type')
+                        option(value='assault') Assault
+                        option(value='suspicious') Suspicious Activity
+                        option(value='vandalism') Vandalism
+                        option(value='arson') Arson
+                        option(value='robbery') Robbery
+
+                  .form-group
                     label.col-sm-2.control-label(for='textinput') Description
                     .col-sm-10
-                      textarea.desc.form-control(type='text',name='description', placeholder='Description (Include Date and Time)')
+                      textarea.desc.form-control(type='text',name='description', placeholder='Description (Include Time of Occurrence)')
                   .form-group
-                    label.col-sm-2.control-label(for='textinput') Number
-                    .col-sm-10
-                      input.streetNumber.form-control(type='text',name='streetNumber', placeholder='Street Number')
+                    label.col-sm-2.control-label(for='textinput') Date
+                    .col-sm-4
+                      input.state.form-control(type='date', name='date')
                   .form-group
-                    label.col-sm-2.control-label(for='textinput') Street
+                    label.col-sm-2.control-label(for='textinput') Address
                     .col-sm-10
-                      input.streetName.form-control(type='text', name='streetName', placeholder='Street Name')
+                      input.streetName.form-control(type='text', name='streetName', placeholder='Address')
                   .form-group
                     label.col-sm-2.control-label(for='textinput') City
                     .col-sm-10
@@ -51,10 +71,11 @@ block content
                         button#submit.btn.btn-primary(type='button', data-dismiss='modal') Submit
 
 
-
     .text-center
+      p Logged in as #{user.facebook.displayName}
       form(method='post', action='/logout')
         button.btn.btn-default.btn-sm#logout Logout
+
     //- .row
       // LOCAL INFORMATION
       //- .col-sm-4
@@ -96,4 +117,4 @@ block content
       //-       a.btn.btn-primary(href='/connect/facebook') Connect Facebook
 
 block scripts
-  script(src='/js/es6/compiled/submitForm.js')
+  script(src='/js/es6/compiled/submitReport.js')
