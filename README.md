@@ -12,4 +12,5 @@ Take Back Nashville is a crime-reporting app that allows users to create an acco
 - Ajax
 - Bootstrap
 - Google Maps API/Geocoding
+- Mailgun API
 - Socket.io
