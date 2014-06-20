@@ -127,8 +127,8 @@ module.exports = function(passport){
               return done(null, user);
             } else {
               var newUser = new User();
-              newUser.facebook.id = profile.id; // set the users facebook id
-              newUser.facebook.token = token; // token that facebook provides user
+              newUser.facebook.id = profile.id;
+              newUser.facebook.token = token;
               newUser.facebook.displayName = profile.name.givenName + ' ' + profile.name.familyName;
               newUser.facebook.email = profile.emails[0].value; // facebook may return multiple emails
 
@@ -143,7 +143,7 @@ module.exports = function(passport){
         });
       } else {
         process.nextTick(function(){
-          // user already exists and is logged in, we have to link accounts
+          // user already exists and is logged in, link accounts
   	      var user = req.user; // pull the user out of the session
 
   				// update the current users facebook credentials
@@ -167,8 +167,6 @@ module.exports = function(passport){
 
   /* Local Registration */
 
-  // Using named strategies since we have login & register
-    // by default, if there was no name, it would just be called 'local'
   passport.use('local-register', new LocalStrategy({
     // by default, local strategy uses username and password. Overriding with email
     usernameField: 'email',
