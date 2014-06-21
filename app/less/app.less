@@ -1,3 +1,7 @@
+body{
+  background-color: #FFFFFF;
+}
+
 .container{
   width: 85%;
   margin:auto;
@@ -75,20 +79,67 @@
 }
 button.btn.btn-primary.btn-lg.report{
   position: relative;
-  display:block;
-  margin-left: 50%;
-  margin-top: 2em;
-  margin-bottom: 1em;
-  right: 124px;
-  background-color: #333;
-  border-color: #333;
+  display: inline-block;
+  float: left;
+  height: 200px;
+  width: 19%;
+  border-radius: 10px;
+  margin-top: 30px;
+  background-color: #769EA5;
+  border-color: #769EA5;
 }
+button.btn.btn-primary.btn-lg.report:hover{
+  background-color: #B5A99B;
+  border-color: #B5A99B;
+}
+
+button.btn.btn-default.btn-lg#logout{
+  position: relative;
+  display: inline-block;
+  float: right;
+  height: 200px;
+  width:19%;
+  border-radius: 10px;
+  margin-top: 30px;
+  background-color: #694342;
+  color: #fff;
+}
+
+button.btn.btn-default.btn-lg#logout:hover{
+  background-color: #B5A99B;
+  border-color: #B5A99B;
+}
+
+// Chat it up
+#chatContain{
+  position: relative;
+  display: inline-block;
+  float: left;
+  width: 40%;
+  margin-top: 30px;
+  margin-left: 11%;
+}
+
 #chat{
-    width: 100%;
-    margin:auto;
-    height: 200px;
-    border: 1px solid black;
-    overflow: none;
+  width: 100%;
+  margin:auto;
+  height: 198px;
+  border-radius: 10px;
+  overflow: scroll;
+  background-color: #A3B29E;
+}
+
+.message{
+  border-radius: 7px;
+  margin-left: 10px;
+  max-width: 100%;
+  overflow: auto;
+}
+// END CHAT
+
+.clear{
+  width: 100%;
+  clear: both;
 }
 
 #report-container.well.well-lg{
@@ -130,15 +181,36 @@ button.btn.btn-primary.btn-lg.report{
     margin:0;
   }
 }
-#logout{
-  margin-bottom: 2em !important;
-}
 
 .fb{
   width: 50px;
 }
 
+.bottom{
+  width: 300px;
+  display: inline-block;
+}
+
+a.btn.btn-primary.footer-btn{
+  width: 175px;
+}
+
 // Responsiveness
+
+@media (max-width: 1199px) {
+  #chatContain{
+    width:60%;
+    margin-left:1%;
+  }
+  .well-sm{
+    width:45em;
+    .content{
+      width: 30em;
+      margin-left: .5em;
+    }
+  }
+}
+
 @media (max-width: 1032px) {
   h1.header{
     font-size: 5em;
@@ -162,7 +234,7 @@ button.btn.btn-primary.btn-lg.report{
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 769px) {
   .container{
     width: 90%;
   }
@@ -176,6 +248,18 @@ button.btn.btn-primary.btn-lg.report{
       margin-left: .5em;
     }
   }
+  #chatContain{
+    display:block;
+    float: none;
+    width: 100%;
+  }
+  button.btn.btn-default.btn-lg#logout{
+    width: 45%;
+  }
+  button.btn.btn-primary.btn-lg.report{
+    width: 45%;
+  }
+
 }
 
 @media (max-width: 739px) {

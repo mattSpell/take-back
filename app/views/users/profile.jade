@@ -24,12 +24,26 @@ block content
         .content
           p= report.desc
 
-  #chat
-  input#message(type='text', placeholder='Message')
-  button#send Send
-
   button.btn.btn-primary.btn-lg.report(data-toggle='modal', data-target='#myModal')
-    | Report Suspicious Activity
+    | Report
+
+  #chatContain
+    #chat
+    input#message(type='text', placeholder='Message')
+    button#send Send
+
+
+
+  form(method='post', action='/logout')
+    button.btn.btn-default.btn-lg#logout Logout
+
+  .clear
+  if(user.facebook.displayName)
+    p Logged in as #{user.facebook.displayName}
+  if(user.local.email)
+    p Logged in as #{user.local.email}
+
+
 
   #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
     .modal-dialog
@@ -84,11 +98,6 @@ block content
                       button.btn.btn-default(type='button', data-dismiss='modal') Close
                       button#submit.btn.btn-primary(type='button', data-dismiss='modal') Submit
 
-
-  .text-center
-    p Logged in as #{user.facebook.displayName}
-    form(method='post', action='/logout')
-      button.btn.btn-default.btn-sm#logout Logout
 
     //- .row
       // LOCAL INFORMATION

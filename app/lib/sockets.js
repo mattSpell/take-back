@@ -2,12 +2,16 @@
 
 var Cookies = require('cookies');
 var traceur = require('traceur');
+var userCollection;
 var User;
+var Base;
 var users = {};
 
 exports.connection = function(socket){
   if(global.nss){
     User = traceur.require(__dirname + '/../models/user.js');
+    userCollection = global.nss.db.collection('users');
+    Base = traceur.require(__dirname + '/../models/base.js');
     addUserToSocket(socket);
     socket.on('sendmessage', sendMessage);
   }
@@ -19,16 +23,15 @@ exports.connection = function(socket){
 
 function sendMessage(data){
   var socket = this;
+  if(socket.nss.user.local){
+    data.email = socket.nss.user.local.email;
+  }
+  if(socket.nss.user.facebook.email){
+    data.email = socket.nss.user.facebook.email;
+  }
 
-  console.log('======DATA=========TROLLLLL');
-  console.log(this.nss);
-  console.log(data);
-
-  data.email = socket.nss.user.email;
   socket.broadcast.emit('receive-message', data);
   socket.emit('receive-message', data);
-
-
 }
 
 function addUserToSocket(socket){
@@ -40,8 +43,9 @@ function addUserToSocket(socket){
     decoded = decode(encoded);
   }
 
-  User.findById(decoded.userId, user=>{
-    users[decoded.userId] = user;
+  Base.findById(decoded.passport.user, userCollection, User, (err, user)=>{
+
+    users[decoded.passport.user] = user;
     socket.nss = {};
     socket.nss.user = user;
     socket.emit('online', users);

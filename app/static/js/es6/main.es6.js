@@ -12,6 +12,11 @@
   function init(){
     initMap(36.15, -86.78, 12);
     addMarkers();
+
+    if($(window).width() <= 769){
+      $('#chatContain').insertBefore('.report');
+    }
+
   }
 
   function addMarkers(){

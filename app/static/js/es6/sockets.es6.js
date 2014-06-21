@@ -16,12 +16,11 @@
   function send(){
     var message = $('#message').val();
     $('#message').val('');
-    socket.emit('sendmessage', {message:'hi'});
+    socket.emit('sendmessage', {message:message});
   }
 
   function receiveMessage(data){
-    console.log(data);
-    $('#chat').prepend(data.email + ' said: ' + data.message);
+    $('#chat').append($('<div class="message">' +data.email+ ' said: ' +data.message+ '</div>'));
   }
 
   function initializeSocketIo(){
@@ -31,7 +30,6 @@
   }
 
   function online(data){
-    console.log(data);
     var keys = Object.keys(data);
     $('#users').empty();
 
