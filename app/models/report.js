@@ -7,6 +7,7 @@ var Base = traceur.require(__dirname + '/base.js');
 var request = require('request');
 var userCollection = global.nss.db.collection('users');
 var User = traceur.require(__dirname + '/../models/user.js');
+var moment = require('moment');
 
 class Report {
   static create(userId, obj, fn){
@@ -15,13 +16,14 @@ class Report {
         report.latlong = [];
         report.type = obj.type;
         report.desc = obj.description;
-        report.street = obj.streetName;
+        report.street = obj.streetName.toUpperCase();
+        report.city = obj.city.toUpperCase();
+        report.state = obj.state.toUpperCase();
+        report.zip = obj.zip;
 
-        var roughDate = new Date(obj.date);
-        var day = roughDate.getDate();
-        var month = roughDate.getMonth();
-        var year = roughDate.getFullYear();
-        report.date = `${month}/${day}/${year}`;
+        obj.date = moment(obj.date).format('MM/DD/YYYY');
+        report.date = obj.date;
+
         report.save(()=>{
           Base.findById(userId, userCollection, User, (err, user)=>{
             sendReportEmail(report, user, fn);
@@ -57,11 +59,14 @@ class Report {
       form.append('html', `<h2>${report.date}</h2><p>${report.desc}</p>
                             <p>Submitted by:</p>
                             <p>${user.facebook.displayName}</p>
-                            <p>${user.facebook.email}</p>`);}
+                            <p>${user.facebook.email}</p>
+                            <p>This is an automated email. Please do not reply.</p>
+                            `);}
     if(user.local.email){
       form.append('html', `<h2>${report.date}</h2><p>${report.desc}</p>
                             <p>Submitted by:</p>
-                            <p>${user.local.email}</p>`
+                            <p>${user.local.email}</p>
+                            <p>'This is an automated email. Please do not reply.'</p>`
                             );}
 
   }

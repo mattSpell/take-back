@@ -10,19 +10,25 @@ block content
       li: img(src='/img/robberyLegend.png')
       li: img(src='/img/suspiciousLegend.png')
       li: img(src='/img/vandalismLegend.png')
+  hr
+  .text-center
+    h3 Reports
+    h4 Filter by:
+    input#filter(type='text', name='filter', value='', placeholder='Keyword/Date/Address')
 
   #report-container.well.well-lg
-    .text-center
-      h3 Reports
-      hr
     each report in reports
-      .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}')
+      .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}', data-date='#{report.date}')
         .date
           p= report.date
         .type
           img.icon(src='/img/#{report.type}.png')
         .content
           p= report.desc
+          p.hide= report.type
+        .address
+          h5= report.street
+          h5 #{report.city}, #{report.state} #{report.zip}
 
   button.btn.btn-primary.btn-lg.report(data-toggle='modal', data-target='#myModal')
     | Report

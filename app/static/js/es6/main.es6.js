@@ -17,14 +17,41 @@
       $('#chatContain').insertBefore('.report');
     }
 
+    var wells = $('#report-container').find('.well-sm');
+    wells.addClass('visible');
+    $('#filter').keyup(function(event){
+      if (event.keyCode === 27 || $(this).val() === '') {
+      $(this).val('');
+
+      wells.removeClass('visible').show().addClass('visible');
+    } else {
+      filterThis(wells, $(this).val());
+      }
+    });
+
+
   }
+
+
+  function filterThis(selector, query) {
+    query =   $.trim(query); //trim white space
+    query = query.replace(/ /gi, '|'); //add OR for regex query
+
+    $(selector).each(function() {
+      ($(this).text().search(new RegExp(query, 'i')) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
+    });
+  }
+
 
   function addMarkers(){
     var wells = $('#report-container').find('.well-sm');
     wells.each(function(){
+
       var desc = $(this).find('.content').text();
       var date = $(this).find('.date').text();
       var type = $(this).attr('data-type');
+      var address = $(this).find('.address').text();
+
       var icon = `../img/${type}.png`;
       var lat = $(this).attr('data-lat');
       var long = $(this).attr('data-long');
@@ -37,12 +64,15 @@
       });
 
       var infoWindow = new google.maps.InfoWindow();
-      var html = '<h4>'+date+'</h4>'+'<p>'+desc+'</p>';
+      var html = '<h4>'+date+'</h4>'+'<p>'+desc+'</p><h6>'+address+'</h6>';
+
       google.maps.event.addListener(marker, 'click', function(){
         infoWindow.setContent(html);
         infoWindow.open(map, marker);
       });
+
     });
+
   }
 
 
