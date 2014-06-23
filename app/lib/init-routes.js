@@ -128,7 +128,9 @@ function load(app, fn){
   app.post('/logout', dbg, users.logout);
   app.get('/users/password', dbg, users.password);
   app.post('/users/password', dbg, users.updatePassword);
+  app.post('/reports/:id', dbg, reports.destroy);
   app.post('/reports', dbg, reports.create);
+
 
   console.log('Routes Loaded');
   fn();

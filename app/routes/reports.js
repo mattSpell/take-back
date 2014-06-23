@@ -1,9 +1,10 @@
 'use strict';
 
 // var multiparty = require('multiparty');
-// var reportCollection = global.nss.db.collection('reports');
+var reportCollection = global.nss.db.collection('reports');
 var traceur = require('traceur');
 var Report = traceur.require(__dirname + '/../models/report.js');
+var Base = traceur.require(__dirname + '/../models/base.js');
 var request = require('request');
 
 exports.create = (req, res)=>{
@@ -20,5 +21,11 @@ exports.create = (req, res)=>{
         });
       }
     });
+  });
+};
+
+exports.destroy = (req, res)=>{
+  Base.findById(req.params.id, reportCollection, Report, (err, report)=>{
+    report.destroy(()=>res.redirect('/profile'));
   });
 };

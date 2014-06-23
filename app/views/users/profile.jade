@@ -16,6 +16,8 @@ block content
     h4 Filter by:
     input#filter(type='text', name='filter', value='', placeholder='Keyword/Date/Address')
 
+    //- button#email Email Search Results
+
 
   #report-container.well.well-lg
     each report in reports
@@ -27,6 +29,10 @@ block content
         .content
           p= report.desc
           p.hide= report.type
+          if(report.isOwner(user))
+            form(action='/reports/#{report._id}', method='post')
+              input(type='hidden', name='_method', value='delete')
+              button Delete
         .address
           h5= report.street
           h5 #{report.city}, #{report.state} #{report.zip}
@@ -48,9 +54,12 @@ block content
   .clear
   if(user.facebook.displayName)
     p Logged in as #{user.facebook.displayName}
+    p
+            a.btn.btn-primary(href='/unlink/facebook') Unlink
   if(user.local.email)
     p Logged in as #{user.local.email}
-
+    p
+      a.btn.btn-default.btn-sm(href='/users/password') Change Password
 
 
   #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
@@ -95,10 +104,10 @@ block content
                   label.col-sm-2.control-label(for='textinput') Zip
                   .col-sm-4
                     input.zip.form-control(type='text', name='zip', placeholder='Zip')
-                //- .form-group
-                //-   label.col-sm-2.control-label(for='fileinput') Photo
-                //-   .col-sm-10
-                //-     input.photo.form-control(type='file')
+                .form-group
+                  label.col-sm-2.control-label(for='fileinput') Photo
+                  .col-sm-10
+                    input.photo.form-control(type='file')
 
                 .form-group
                   .col-sm-offset-2.col-sm-10

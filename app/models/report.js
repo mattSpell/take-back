@@ -36,10 +36,20 @@ class Report {
     reportCollection.save(this, ()=>fn(this));
   }
 
+  destroy(fn){
+    reportCollection.findAndRemove({_id:this._id}, ()=>{
+      fn();
+    });
+  }
 
   static findById(id, fn){
     Base.findById(id, reportCollection, Report, fn);
   }
+
+  isOwner(user){
+    return user._id.toString() === this.userId.toString();
+  }
+
 }
 
   function sendReportEmail(report, user, fn){
