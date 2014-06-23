@@ -13,13 +13,16 @@
     initMap(36.15, -86.78, 12);
     addMarkers();
 
+    // LAYOUT CHANGE FOR RESPONSIVENESS
     if($(window).width() <= 769){
       $('#chatContain').insertBefore('.report');
     }
 
+    // REGEX FILTER
     var wells = $('#report-container').find('.well-sm');
     wells.addClass('visible');
     $('#filter').keyup(function(event){
+      // ESCAPE KEY CLEARS FILTER INPUT
       if (event.keyCode === 27 || $(this).val() === '') {
       $(this).val('');
 
@@ -28,14 +31,11 @@
       filterThis(wells, $(this).val());
       }
     });
-
-
   }
 
-
   function filterThis(selector, query) {
-    query =   $.trim(query); //trim white space
-    query = query.replace(/ /gi, '|'); //add OR for regex query
+    query =   $.trim(query);
+    query = query.replace(/ /gi, '|');
 
     $(selector).each(function() {
       ($(this).text().search(new RegExp(query, 'i')) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
