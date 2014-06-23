@@ -16,6 +16,7 @@ block content
     h4 Filter by:
     input#filter(type='text', name='filter', value='', placeholder='Keyword/Date/Address')
 
+
   #report-container.well.well-lg
     each report in reports
       .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}', data-date='#{report.date}')
@@ -35,8 +36,9 @@ block content
 
   #chatContain
     #chat
-    input#message(type='text', placeholder='Message')
-    button#send Send
+    #controls
+      input#message(type='text', placeholder='Message')
+      button#send Send
 
 
 
