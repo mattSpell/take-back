@@ -16,27 +16,26 @@ block content
     h4 Filter by:
     input#filter(type='text', name='filter', value='', placeholder='Keyword/Date/Address')
 
-    //- button#email Email Search Results
-
 
   #report-container.well.well-lg
     each report in reports
-      each photo in report.photos
-        .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}', data-img='/img/#{report.userId}/#{photo.originalFilename}')
-          .date
-            p= report.date
-          .type
-            img.icon(src='/img/#{report.type}.png')
-          .content
-            p= report.desc
-            p.hide= report.type
-            if(report.isOwner(user))
-              form(action='/reports/#{report._id}', method='post')
-                input(type='hidden', name='_method', value='delete')
-                button Delete
-          .address
-            h5= report.street
-            h5 #{report.city}, #{report.state} #{report.zip}
+      .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}', data-desc='#{report.desc}')
+        each photo in report.photos
+          .gone(data-img='/img/#{report.userId}/#{photo.originalFilename}')
+        .date
+          p= report.date
+        .type
+          img.icon(src='/img/#{report.type}.png')
+        .content
+          p= report.desc
+          p.hide= report.type
+          if(report.isOwner(user))
+            form(action='/reports/#{report._id}', method='post')
+              input(type='hidden', name='_method', value='delete')
+              button Delete
+        .address
+          h5= report.street
+          h5 #{report.city}, #{report.state} #{report.zip}
 
   button#go.btn.btn-primary.btn-lg.report
     | Report
@@ -95,8 +94,6 @@ block content
 
         .form-group
           .col-sm-offset-2.col-sm-10
-            //- .modal-footer
-            button.btn.btn-default(type='button') Close
             button#submit.btn.btn-primary Submit
 
   .clear
