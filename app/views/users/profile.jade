@@ -21,23 +21,24 @@ block content
 
   #report-container.well.well-lg
     each report in reports
-      .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}', data-date='#{report.date}')
-        .date
-          p= report.date
-        .type
-          img.icon(src='/img/#{report.type}.png')
-        .content
-          p= report.desc
-          p.hide= report.type
-          if(report.isOwner(user))
-            form(action='/reports/#{report._id}', method='post')
-              input(type='hidden', name='_method', value='delete')
-              button Delete
-        .address
-          h5= report.street
-          h5 #{report.city}, #{report.state} #{report.zip}
+      each photo in report.photos
+        .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}', data-img='/img/#{report.userId}/#{photo.originalFilename}')
+          .date
+            p= report.date
+          .type
+            img.icon(src='/img/#{report.type}.png')
+          .content
+            p= report.desc
+            p.hide= report.type
+            if(report.isOwner(user))
+              form(action='/reports/#{report._id}', method='post')
+                input(type='hidden', name='_method', value='delete')
+                button Delete
+          .address
+            h5= report.street
+            h5 #{report.city}, #{report.state} #{report.zip}
 
-  button.btn.btn-primary.btn-lg.report(data-toggle='modal', data-target='#myModal')
+  button#go.btn.btn-primary.btn-lg.report
     | Report
 
   #chatContain
@@ -46,10 +47,57 @@ block content
       input#message(type='text', placeholder='Message')
       button#send Send
 
-
-
   form(method='post', action='/logout')
     button.btn.btn-default.btn-lg#logout Logout
+
+  .clear
+
+  #formContain.hidden
+    form.report.form-horizontal(action='/reports', method='post', enctype='multipart/form-data')
+      fieldset
+        .form-group
+          label.col-sm-2.control-label(for='option') Type
+          .col-sm-4
+            select.type.form-control(name='type')
+              option(value='assault') Assault
+              option(value='suspicious') Suspicious Activity
+              option(value='vandalism') Vandalism
+              option(value='arson') Arson
+              option(value='robbery') Robbery
+
+        .form-group
+          label.col-sm-2.control-label(for='textinput') Description
+          .col-sm-10
+            textarea.desc.form-control(type='text',name='description', placeholder='Description (Include Time of Occurrence)')
+        .form-group
+          label.col-sm-2.control-label(for='textinput') Date
+          .col-sm-4
+            input.state.form-control(type='date', name='date')
+        .form-group
+          label.col-sm-2.control-label(for='textinput') Address
+          .col-sm-10
+            input.streetName.form-control(type='text', name='streetName', placeholder='Address')
+        .form-group
+          label.col-sm-2.control-label(for='textinput') City
+          .col-sm-10
+            input.city.form-control(type='text', name='city', placeholder='City')
+        .form-group
+          label.col-sm-2.control-label(for='textinput') State
+          .col-sm-4
+            input.state.form-control(type='text', name='state', placeholder='State')
+          label.col-sm-2.control-label(for='textinput') Zip
+          .col-sm-4
+            input.zip.form-control(type='text', name='zip', placeholder='Zip')
+        .form-group
+          label.col-sm-2.control-label(for='fileinput') Photo
+          .col-sm-10
+            input.photo.form-control(type='file', name='photos', multiple=true)
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            //- .modal-footer
+            button.btn.btn-default(type='button') Close
+            button#submit.btn.btn-primary Submit
 
   .clear
   if(user.facebook.displayName)
@@ -61,59 +109,6 @@ block content
     p
       a.btn.btn-default.btn-sm(href='/users/password') Change Password
 
-
-  #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-    .modal-dialog
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-            h4#myModalLabel.modal-title Report Suspicious Activity
-          .modal-body
-            form.report.form-horizontal(action='/reports', method='post', enctype='multipart/form-data', role='form')
-              fieldset
-                .form-group
-                  label.col-sm-2.control-label(for='option') Type
-                  .col-sm-4
-                    select.type.form-control(name='type')
-                      option(value='assault') Assault
-                      option(value='suspicious') Suspicious Activity
-                      option(value='vandalism') Vandalism
-                      option(value='arson') Arson
-                      option(value='robbery') Robbery
-
-                .form-group
-                  label.col-sm-2.control-label(for='textinput') Description
-                  .col-sm-10
-                    textarea.desc.form-control(type='text',name='description', placeholder='Description (Include Time of Occurrence)')
-                .form-group
-                  label.col-sm-2.control-label(for='textinput') Date
-                  .col-sm-4
-                    input.state.form-control(type='date', name='date')
-                .form-group
-                  label.col-sm-2.control-label(for='textinput') Address
-                  .col-sm-10
-                    input.streetName.form-control(type='text', name='streetName', placeholder='Address')
-                .form-group
-                  label.col-sm-2.control-label(for='textinput') City
-                  .col-sm-10
-                    input.city.form-control(type='text', name='city', placeholder='City')
-                .form-group
-                  label.col-sm-2.control-label(for='textinput') State
-                  .col-sm-4
-                    input.state.form-control(type='text', name='state', placeholder='State')
-                  label.col-sm-2.control-label(for='textinput') Zip
-                  .col-sm-4
-                    input.zip.form-control(type='text', name='zip', placeholder='Zip')
-                .form-group
-                  label.col-sm-2.control-label(for='fileinput') Photo
-                  .col-sm-10
-                    input.photo.form-control(type='file')
-
-                .form-group
-                  .col-sm-offset-2.col-sm-10
-                    .modal-footer
-                      button.btn.btn-default(type='button', data-dismiss='modal') Close
-                      button#submit.btn.btn-primary(type='button', data-dismiss='modal') Submit
 
 
     //- .row

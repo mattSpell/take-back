@@ -8,21 +8,31 @@ var request = require('request');
 var userCollection = global.nss.db.collection('users');
 var User = traceur.require(__dirname + '/../models/user.js');
 var moment = require('moment');
+var fs = require('fs');
+var mkdirp = require('mkdirp');
+
 
 class Report {
-  static create(userId, obj, fn){
+  static create(userId, fields, files, fn){
         var report = new Report();
         report.userId = userId;
         report.latlong = [];
-        report.type = obj.type;
-        report.desc = obj.description;
-        report.street = obj.streetName.toUpperCase();
-        report.city = obj.city.toUpperCase();
-        report.state = obj.state.toUpperCase();
-        report.zip = obj.zip;
+        report.type = fields.type[0];
+        report.desc = fields.description[0];
+        report.street = fields.streetName[0].toUpperCase();
+        report.city = fields.city[0].toUpperCase();
+        report.state = fields.state[0].toUpperCase();
+        report.zip = fields.zip[0];
+        fields.date[0] = moment(fields.date[0]).format('MM/DD/YYYY');
+        report.date = fields.date[0];
+        report.photos = [];
 
-        obj.date = moment(obj.date).format('MM/DD/YYYY');
-        report.date = obj.date;
+        files.photos.forEach(p=>{
+          mkdirp(`${__dirname}/../static/img/${report.userId}`, function(err) {
+            fs.renameSync(p.path,`${__dirname}/../static/img/${report.userId}/${p.originalFilename}`);
+            report.photos.push(p);
+            });
+        });
 
         report.save(()=>{
           Base.findById(userId, userCollection, User, (err, user)=>{

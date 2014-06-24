@@ -12,6 +12,7 @@
   function init(){
     initMap(36.15, -86.78, 12);
     addMarkers();
+    $('#go').on('click', go);
 
     // LAYOUT CHANGE FOR RESPONSIVENESS
     if($(window).width() <= 769){
@@ -33,6 +34,10 @@
     });
   }
 
+  function go(){
+    $('#formContain').toggleClass('hidden');
+  }
+
   function filterThis(selector, query) {
     query =   $.trim(query);
     query = query.replace(/ /gi, '|');
@@ -51,6 +56,7 @@
       var date = $(this).find('.date').text();
       var type = $(this).attr('data-type');
       var address = $(this).find('.address').text();
+      var img = $(this).attr('data-img');
 
       var icon = `../img/${type}.png`;
       var lat = $(this).attr('data-lat');
@@ -64,7 +70,7 @@
       });
 
       var infoWindow = new google.maps.InfoWindow();
-      var html = '<h4>'+date+'</h4>'+'<p>'+desc+'</p><h6>'+address+'</h6>';
+      var html = '<img src="'+img+'" class="toolPhoto"><h4>'+date+'</h4>'+'<p>'+desc+'</p><h6>'+address+'</h6>';
 
       google.maps.event.addListener(marker, 'click', function(){
         infoWindow.setContent(html);
