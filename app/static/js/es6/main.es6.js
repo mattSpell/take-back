@@ -1,6 +1,7 @@
 /*global google:true*/
 /*jshint unused:false*/
 /*jshint camelcase:false*/
+/*jshint -W030 */
 
 (function(){
   'use strict';
