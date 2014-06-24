@@ -10,6 +10,7 @@ var User = traceur.require(__dirname + '/../models/user.js');
 var moment = require('moment');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
+var rimraf = require('rimraf');
 
 
 class Report {
@@ -27,12 +28,15 @@ class Report {
         report.date = fields.date[0];
         report.photos = [];
 
-        files.photos.forEach(p=>{
-          mkdirp(`${__dirname}/../static/img/${report.userId}`, function(err) {
-            fs.renameSync(p.path,`${__dirname}/../static/img/${report.userId}/${p.originalFilename}`);
-            report.photos.push(p);
-            });
-        });
+        if(files.photos[0].size > 0){
+          files.photos.forEach(p=>{
+            mkdirp(`${__dirname}/../static/img/${report.userId}`, function(err) {
+              fs.renameSync(p.path,`${__dirname}/../static/img/${report.userId}/${p.originalFilename}`);
+              p.fileDir = `${__dirname}/../static/img/${report.userId}/${p.originalFilename}`;
+              report.photos.push(p);
+              });
+          });
+        }
 
         report.save(()=>{
           Base.findById(userId, userCollection, User, (err, user)=>{
@@ -47,8 +51,13 @@ class Report {
   }
 
   destroy(fn){
+    var report = this;
     reportCollection.findAndRemove({_id:this._id}, ()=>{
-      fn();
+      if(report.photos.length > 0){
+        rimraf(report.photos[0].fileDir, fn);
+      }else{
+        fn();
+      }
     });
   }
 

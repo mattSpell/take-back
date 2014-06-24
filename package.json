@@ -41,7 +41,8 @@
     "cookie-parser":   "*",
     "express-session": "*",
     "multiparty":      "*",
-    "mkdirp":          "*"
+    "mkdirp":          "*",
+    "rimraf":          "*"
   },
   "devDependencies": {
     "grunt":                "*",

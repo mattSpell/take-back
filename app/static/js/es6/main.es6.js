@@ -49,14 +49,22 @@
 
 
   function addMarkers(){
+    var photos;
     var wells = $('#report-container').find('.well-sm');
     wells.each(function(){
+      var well = $(this);
+      var desc = well.attr('data-desc');
+      var date = well.find('.date').text();
+      var type = well.attr('data-type');
+      var address = well.find('.address').text();
+      var images = well.find('.gone');
+      var imgs = $.makeArray(images);
 
-      var desc = $(this).find('.content').text();
-      var date = $(this).find('.date').text();
-      var type = $(this).attr('data-type');
-      var address = $(this).find('.address').text();
-      var img = $(this).attr('data-img');
+      photos = imgs.map(function(img){
+        var filepath = $(img).attr('data-img');
+        var html = '<img src=' + filepath + ' class="toolPhoto">';
+        return html;
+      });
 
       var icon = `../img/${type}.png`;
       var lat = $(this).attr('data-lat');
@@ -70,10 +78,14 @@
       });
 
       var infoWindow = new google.maps.InfoWindow();
-      var html = '<img src="'+img+'" class="toolPhoto"><h4>'+date+'</h4>'+'<p>'+desc+'</p><h6>'+address+'</h6>';
+
+      var content = '<h4>'+date+'</h4>'+'<p>'+desc+'</p><h6>'+address+'</h6>';
+      photos.forEach(p=>{
+        content = p + content;
+      });
 
       google.maps.event.addListener(marker, 'click', function(){
-        infoWindow.setContent(html);
+        infoWindow.setContent(content);
         infoWindow.open(map, marker);
       });
 
