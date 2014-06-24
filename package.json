@@ -40,7 +40,8 @@
     "passport-twitter": "*",
     "cookie-parser":   "*",
     "express-session": "*",
-    "multiparty":      "*"
+    "multiparty":      "*",
+    "mkdirp":          "*"
   },
   "devDependencies": {
     "grunt":                "*",
