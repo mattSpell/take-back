@@ -6,7 +6,7 @@ module.exports = {
 	'facebookAuth' : {
 		'clientID' 		: facebookKey, // your App ID
 		'clientSecret' 	: fbSecret, // your App Secret
-		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
+		'callbackURL' 	: 'http://take-back-nash.portfolio.mattspell.com/auth/facebook/callback'
 	}
 
 
