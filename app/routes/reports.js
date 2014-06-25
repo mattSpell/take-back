@@ -13,7 +13,12 @@ exports.create = (req, res)=>{
   form.parse(req, (err, fields, files)=>{
     Report.create(req.user._id, fields, files, (report)=>{
       var street = report.street.split(' ').map(each=>each.trim());
-      request('https://maps.googleapis.com/maps/api/geocode/json?address='+street[0]+'+'+street[1]+'+'+street[2]+'+'+street[3]+'+,+Nashville,+TN&key=AIzaSyCCisv6D7SOLh8w4s58alflk1tk9qlCFQ0', function(err, response, body){
+      var first = street[0] || '';
+      var second = street[1] || '';
+      var third = street[2] || '';
+      var fourth = street[3] || '';
+
+      request('https://maps.googleapis.com/maps/api/geocode/json?address='+first+'+'+second+'+'+third+'+'+fourth+'+,+Nashville,+TN&key=AIzaSyCCisv6D7SOLh8w4s58alflk1tk9qlCFQ0', function(err, response, body){
       if(!err && response.statusCode === 200){
         body = JSON.parse(body);
         var lat = body.results[0].geometry.location.lat;
