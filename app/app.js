@@ -19,6 +19,7 @@ var session        = require('express-session');
 var flash          = require('connect-flash');
 
 
+
 /* --- configuration    */
 var app = express();
 app.set('views', __dirname + '/views');
