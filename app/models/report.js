@@ -37,14 +37,12 @@ class Report {
               });
           });
         }
-
         report.save(()=>{
           Base.findById(userId, userCollection, User, (err, user)=>{
             sendReportEmail(report, user, fn);
           });
         });
       }
-
 
   save(fn){
     reportCollection.save(this, ()=>fn(this));
@@ -68,21 +66,18 @@ class Report {
   isOwner(user){
     return user._id.toString() === this.userId.toString();
   }
-
 }
 
   function sendReportEmail(report, user, fn){
     var key = process.env.MAILGUN;
     var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxe9429ffb39cf46ae8647ff7eb786e9a2.mailgun.org/messages';
     var post = request.post(url, function(err, response, body){
-      // fn(err, body);
-
       fn(report);
     });
 
     var form = post.form();
     form.append('from', 'admin@take-back-nash.com');
-    form.append('to', 'matthew.spell1@gmail.com');
+    form.append('to', 'matthew.spell1@yahoo.com');
     form.append('subject', 'A crime/suspicious activity report was created on Take-Back-Nash.com');
     if(user.facebook.displayName){
       form.append('html', `<h2>${report.date}</h2><p>${report.desc}</p>

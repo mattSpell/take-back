@@ -4,7 +4,6 @@ var traceur = require('traceur');
 var dbg = traceur.require(__dirname + '/route-debugger.js');
 var initialized = false;
 
-
 module.exports = (req, res, next)=>{
   if(!initialized){
     initialized = true;
@@ -22,11 +21,7 @@ function load(app, fn){
   /* Passport Configuration */
   var passport = require('passport');
   require('../config/passport')(passport);
-
-
   app.get('/', dbg, home.index);
-
-
   app.get('/register', dbg, users.registration);
   app.post('/register', dbg, passport.authenticate('local-register', {
     successRedirect : '/profile',
@@ -34,9 +29,9 @@ function load(app, fn){
     failureFlash : true
   }));
   app.post('/login', dbg, passport.authenticate('local-login', {
-    successRedirect : '/profile', // redirect to the secure profile section
-    failureRedirect : '/', // redirect back to the home page if there is an error
-    failureFlash : true // allow flash messages
+    successRedirect : '/profile',
+    failureRedirect : '/',
+    failureFlash : true
   }));
   app.get('/auth/facebook', passport.authenticate('facebook', {
     scope: 'email'
@@ -46,53 +41,26 @@ function load(app, fn){
     successRedirect: '/profile',
     failureRedirect: '/'
   }));
-  // app.get('/auth/twitter', passport.authenticate('twitter'));
-	// app.get('/auth/twitter/callback',
-	// 	passport.authenticate('twitter', {
-	// 		successRedirect : '/profile',
-	// 		failureRedirect : '/'
-	// }));
-
-
-  // =============================================================================
-  // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
-  // =============================================================================
 
 	// locally --------------------------------
 	app.get('/connect/local', function(req, res) {
 		res.render('users/connect-local', { message: req.flash('registerMessage') });
 	});
 	app.post('/connect/local', passport.authenticate('local-register', {
-		successRedirect : '/profile', // redirect to the secure profile section
-		failureRedirect : '/connect/local', // redirect back to the register page if there is an error
-		failureFlash : true // allow flash messages
+		successRedirect : '/profile',
+		failureRedirect : '/connect/local',
+		failureFlash : true
 	}));
 
 	// facebook -------------------------------
-	// send to facebook to do the authentication
 	app.get('/connect/facebook', passport.authorize('facebook', { scope : 'email' }));
-	// handle the callback after facebook has authorized the user
 	app.get('/connect/facebook/callback',
 		passport.authorize('facebook', {
 			successRedirect : '/profile',
 			failureRedirect : '/'
 	}));
 
-	// twitter --------------------------------
-	// send to twitter to do the authentication
-	app.get('/connect/twitter', passport.authorize('twitter', { scope : 'email' }));
-	// handle the callback after twitter has authorized the user
-	app.get('/connect/twitter/callback',
-		passport.authorize('twitter', {
-			successRedirect : '/profile',
-			failureRedirect : '/'
-	}));
-
-  // =============================================================================
   // UNLINK ACCOUNTS =============================================================
-  // =============================================================================
-  // user account will stay active in case they want to reconnect in the future
-
   // local -----------------------------------
   app.get('/unlink/local', function(req, res) {
       var user            = req.user;
@@ -121,8 +89,6 @@ function load(app, fn){
       });
   });
 
-
-
   app.all('*', users.bounce);
   app.get('/profile', dbg, users.profile);
   app.post('/logout', dbg, users.logout);
@@ -130,7 +96,6 @@ function load(app, fn){
   app.post('/users/password', dbg, users.updatePassword);
   app.post('/reports/:id', dbg, reports.destroy);
   app.post('/reports', dbg, reports.create);
-
 
   console.log('Routes Loaded');
   fn();

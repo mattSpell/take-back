@@ -7,7 +7,6 @@ var Report = traceur.require(__dirname + '/../models/report.js');
 var Base = traceur.require(__dirname + '/../models/base.js');
 var request = require('request');
 
-
 exports.create = (req, res)=>{
   var form = new multiparty.Form();
   form.parse(req, (err, fields, files)=>{

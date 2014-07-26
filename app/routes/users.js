@@ -1,13 +1,10 @@
 'use strict';
 
-// var passport = require('passport');
-// require('../config/passport')(passport);
 var traceur = require('traceur');
 var User = traceur.require(__dirname + '/../../app/models/user.js');
 var reportCollection = global.nss.db.collection('reports');
 var Report = traceur.require(__dirname + '/../models/report.js');
 var Base = traceur.require(__dirname + '/../models/base.js');
-
 
 exports.registration = (req, res)=>{
   if(!req.user){
@@ -23,7 +20,7 @@ exports.logout = (req, res)=>{
 };
 
 exports.bounce = (req, res, next)=>{
-  if(req.isAuthenticated()){ //
+  if(req.isAuthenticated()){
     return next();
   }
   res.redirect('/');
