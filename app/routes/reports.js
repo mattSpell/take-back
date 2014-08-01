@@ -24,7 +24,7 @@ exports.create = (req, res)=>{
   		  var long = body.results[0].geometry.location.lng;
         report.latlong.push(lat, long);
         report.save((report)=>{
-          res.redirect('/profile');
+          res.send('users/profile', {report:report});
           });
         }
       });

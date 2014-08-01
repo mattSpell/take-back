@@ -12,6 +12,9 @@
     socket.emit('sendmessage', {message: message});
   }
   function receiveMessage(data) {
+    console.log(data);
+    var id = $('#userId').attr('data-id');
+    console.log(id);
     $('#chat').append($('<div class="message">' + data.email + ' said: ' + data.message + '</div>'));
   }
   function initializeSocketIo() {
