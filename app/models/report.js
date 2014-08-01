@@ -28,7 +28,7 @@ class Report {
         report.date = fields.date[0];
         report.photos = [];
 
-        if(files.photos[0].size > 0){
+        if(files.photos){
           files.photos.forEach(p=>{
             mkdirp(`${__dirname}/../static/img/${report.userId}`, function(err) {
               fs.renameSync(p.path,`${__dirname}/../static/img/${report.userId}/${p.originalFilename}`);

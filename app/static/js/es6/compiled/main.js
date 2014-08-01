@@ -5,10 +5,32 @@
   function init() {
     initMap(36.15, -86.78, 12);
     addMarkers();
-    $('#go').on('click', go);
+    initFilter();
+    $('body').on('click', '#submit', upload);
     if ($(window).width() <= 769) {
       $('#chatContain').insertBefore('.report');
     }
+  }
+  function upload() {
+    $('#reportThis').submit(function() {
+      $(this).ajaxSubmit({success: function(report) {
+          var html = ("<div data-lat=" + report.report.latlong[0] + " data-long=" + report.report.latlong[1] + "\n          data-type=" + report.report.type + " data-desc=" + report.report.desc + " class=\"well well-sm visible\">\n          <div class=\"date\"><p>" + report.report.date + "</p></div>\n          <div class=\"type\"><img src=\"/img/" + report.report.type + ".png\" class=\"icon\"></div>\n          <div class=\"content\"><p>" + report.report.desc + "</p><p class=\"hide\">" + report.report.type + "</p></div>\n          <div class=\"address\"><h5>" + report.report.street + "</h5><h5>" + report.report.city + " " + report.report.state + " " + report.report.zip + "</h5></div>");
+          var imgs = [];
+          report.report.photos.map((function(p) {
+            imgs.push(("<div data-img=\"/img/" + report.report.userId + "/" + p.originalFilename + "\" class=\"gone toolPhoto\"></div>"));
+          }));
+          imgs.forEach((function(p) {
+            html = html + p;
+          }));
+          var end = '</div>';
+          $('#report-container').append(html + end);
+          addMarkers();
+          $('#close').trigger('click');
+        }});
+      return false;
+    });
+  }
+  function initFilter() {
     var wells = $('#report-container').find('.well-sm');
     wells.addClass('visible');
     $('#filter').keyup(function(event) {
@@ -19,9 +41,6 @@
         filterThis(wells, $(this).val());
       }
     });
-  }
-  function go() {
-    $('#formContain').toggleClass('hidden');
   }
   function filterThis(selector, query) {
     query = $.trim(query);
