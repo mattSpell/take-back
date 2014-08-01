@@ -53,7 +53,6 @@
             html = html + p;
           });
           var end = '</div>';
-          // console.log(html);
           $('#report-container').append(html + end);
           addMarkers();
           $('#close').trigger('click');

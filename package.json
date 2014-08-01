@@ -23,7 +23,7 @@
     "jade":            "*",
     "express-less":    "*",
     "body-parser":     "*",
-    "morgan":          "*",
+    "morgan":          "~1.0.0",
     "method-override": "*",
     "traceur":         "*",
     "socket.io":       "*",
