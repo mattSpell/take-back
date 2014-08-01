@@ -18,7 +18,7 @@ block content
 
   #report-container.well.well-lg
     each report in reports
-      .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}', data-desc='#{report.desc}')
+      .well.well-sm(data-lat='#{report.latlong[0]}', data-long='#{report.latlong[1]}', data-type='#{report.type}', data-desc='#{report.desc}', data-id='#{report._id}')
         each photo in report.photos
           .gone(data-img='/img/#{report.userId}/#{photo.originalFilename}')
         .date
@@ -109,4 +109,3 @@ block content
       a.btn.btn-default.btn-sm(href='/users/password') Change Password
 
 block scripts
-  //- script(src='/js/es6/compiled/submitReport.js')
