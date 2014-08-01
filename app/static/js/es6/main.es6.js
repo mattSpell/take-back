@@ -14,16 +14,27 @@
     addMarkers();
     initFilter();
     $('body').on('click', '#submit', upload);
-    // $('body').on('click', '#nuke', nuke);
+    $('body').on('click', '#nuke', nuke);
     // LAYOUT CHANGE FOR RESPONSIVENESS
     if($(window).width() <= 769){
       $('#chatContain').insertBefore('.report');
     }
   }
 
-  // function nuke(){
-  //
-  // }
+  function nuke(e){
+    var id = $(this).parent().parent().parent().attr('data-id');
+    $.ajax({
+      url: `/reports/${id}`,
+      type: 'POST',
+      data: {},
+      success: response =>{
+        $(this).parent().parent().parent().remove();
+        console.log(response);
+        addMarkers();
+      }
+    });
+    e.preventDefault();
+  }
 
   function upload(){
       $('#reportThis').submit(function() {
