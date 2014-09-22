@@ -2,7 +2,7 @@
 
 /* load all strategies */
 var LocalStrategy = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
+// var FacebookStrategy = require('passport-facebook').Strategy;
 // var TwitterStrategy  = require('passport-twitter').Strategy;
 
 /* load the user model */
@@ -11,7 +11,7 @@ var User = traceur.require(__dirname + '/../models/user.js');
 var _ = require('lodash');
 
 /* load the authorization variables (Facebook, Twitter, etc) */
-var configAuth = require('./oauth');
+// var configAuth = require('./oauth');
 
 module.exports = function(passport){
   // required for persistent login sessions
@@ -95,63 +95,63 @@ module.exports = function(passport){
   // ));
 
   /* FACEBOOK */
-  passport.use(new FacebookStrategy({
-		// pull in our app id and secret from our auth.js file
-    clientID : configAuth.facebookAuth.clientID,
-    clientSecret : configAuth.facebookAuth.clientSecret,
-    callbackURL : configAuth.facebookAuth.callbackURL,
-    passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-  },
-    // facebook will send back the token and profile
-    function(req, token, refreshToken, profile, done) {
-      // check if the user is already logged in
-      if (!req.user) {
-        // asynchronous
-        process.nextTick(function(){
-          // find the user in the database based on their facebook id
-          User.findByFacebookId(profile.id, function(err, user){
-            // if there is an error (connecting to database), stop everything and return error
-            if(err){
-              return done(err);
-            }
-
-            if(user){
-              return done(null, user);
-            } else {
-              var newUser = new User();
-              newUser.facebook.id = profile.id;
-              newUser.facebook.token = token;
-              newUser.facebook.displayName = profile.name.givenName + ' ' + profile.name.familyName;
-              newUser.facebook.email = profile.emails[0].value; // facebook may return multiple emails
-              newUser.save(function(err){
-                if(err){
-                  throw err;
-                }
-                return done(null, newUser);
-              });
-            }
-          });
-        });
-      } else {
-        process.nextTick(function(){
-          // user already exists and is logged in, link accounts
-  	      var user = req.user; // pull the user out of the session
-  				// update the current users facebook credentials
-          user.facebook.id = profile.id;
-          user.facebook.token = token;
-          user.facebook.displayName = profile.name.givenName + ' ' + profile.name.familyName;
-          user.facebook.email = profile.emails[0].value;
-  				// save the user
-          user.save(function(err) {
-            if(err){
-              throw err;
-            }
-            return done(null, user);
-          });
-        });
-      }
-    }
-  ));
+  // passport.use(new FacebookStrategy({
+	// 	// pull in our app id and secret from our auth.js file
+  //   clientID : configAuth.facebookAuth.clientID,
+  //   clientSecret : configAuth.facebookAuth.clientSecret,
+  //   callbackURL : configAuth.facebookAuth.callbackURL,
+  //   passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+  // },
+  //   // facebook will send back the token and profile
+  //   function(req, token, refreshToken, profile, done) {
+  //     // check if the user is already logged in
+  //     if (!req.user) {
+  //       // asynchronous
+  //       process.nextTick(function(){
+  //         // find the user in the database based on their facebook id
+  //         User.findByFacebookId(profile.id, function(err, user){
+  //           // if there is an error (connecting to database), stop everything and return error
+  //           if(err){
+  //             return done(err);
+  //           }
+  //
+  //           if(user){
+  //             return done(null, user);
+  //           } else {
+  //             var newUser = new User();
+  //             newUser.facebook.id = profile.id;
+  //             newUser.facebook.token = token;
+  //             newUser.facebook.displayName = profile.name.givenName + ' ' + profile.name.familyName;
+  //             newUser.facebook.email = profile.emails[0].value; // facebook may return multiple emails
+  //             newUser.save(function(err){
+  //               if(err){
+  //                 throw err;
+  //               }
+  //               return done(null, newUser);
+  //             });
+  //           }
+  //         });
+  //       });
+  //     } else {
+  //       process.nextTick(function(){
+  //         // user already exists and is logged in, link accounts
+  // 	      var user = req.user; // pull the user out of the session
+  // 				// update the current users facebook credentials
+  //         user.facebook.id = profile.id;
+  //         user.facebook.token = token;
+  //         user.facebook.displayName = profile.name.givenName + ' ' + profile.name.familyName;
+  //         user.facebook.email = profile.emails[0].value;
+  // 				// save the user
+  //         user.save(function(err) {
+  //           if(err){
+  //             throw err;
+  //           }
+  //           return done(null, user);
+  //         });
+  //       });
+  //     }
+  //   }
+  // ));
 
   /* Local Registration */
   passport.use('local-register', new LocalStrategy({
